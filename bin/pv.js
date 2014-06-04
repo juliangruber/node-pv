@@ -25,8 +25,16 @@ var start = new Date;
 //
 
 var tr = Transform();
+var first = true;
 tr._transform = function(buf, _, done){
   volume += buf.length;
+  throughput += buf.length;
+
+  if (first) {
+    progress();
+    first = false;
+  }
+
   done(null, buf);
 };
 
@@ -40,7 +48,6 @@ input.pipe(tr).pipe(process.stdout);
 // Progress
 //
 
-progress();
 var interval = setInterval(progress, 1000);
 
 function progress(){
