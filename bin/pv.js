@@ -3,6 +3,7 @@
 var fs = require('fs');
 var Transform = require('stream').Transform;
 var bytes = require('bytes');
+var strftime = require('strftime');
 
 //
 // Input
@@ -17,6 +18,7 @@ var input = process.argv[2]
 //
 
 var volume = 0;
+var start = new Date;
 
 //
 // Transform
@@ -38,12 +40,16 @@ input.pipe(tr).pipe(process.stdout);
 // Progress
 //
 
-var interval = setInterval(function(){
-  var out = ' '
-    + bytes(volume).toUpperCase()
-    + '\r';
+progress();
+var interval = setInterval(progress, 1000);
+
+function progress(){
+  var out = '\r\033[2K ' + [
+      bytes(volume).toUpperCase(),
+      strftime('%H:%M:%S', new Date((new Date) - start - 3600000))
+  ].join('  ') + ' ';
   process.stderr.write(out);
-}, 1000);
+}
 
 input.on('close', clearInterval.bind(null, interval));
 
