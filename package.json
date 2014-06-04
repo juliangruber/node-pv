@@ -1,6 +1,8 @@
 {
   "name": "node-pv",
   "version": "0.0.0",
+  "repository": "juliangruber/node-pv",
+  "description": "The PipeView utility in JavaScript",
   "dependencies": {
     "bytes": "^1.0.0",
     "minimist": "^0.1.0",
