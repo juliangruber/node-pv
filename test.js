@@ -69,3 +69,28 @@ test('bin name', function(t){
   ps.stdin.write('hey');
 });
 
+test('bin size arg', function(t){
+  var ps = spawn(__dirname + '/bin/pv.js', ['-s', '30']);
+  ps.on('error', t.error.bind(t));
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.ok(/10%/.test(chunk.toString()));
+    t.end();
+  });
+  ps.stdin.write('hey');
+});
+
+test('bin argv size', function(t){
+  var tmp = tmpdir() + '/pv' + Math.random();
+  fs.writeFileSync(tmp, 'hey');
+
+  var ps = spawn(__dirname + '/bin/pv.js', [tmp]);
+  ps.on('error', t.error.bind(t));
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.ok(/100%/.test(chunk.toString()));
+    t.end();
+  });
+  ps.stdin.write('hey');
+});
+
