@@ -18,6 +18,7 @@ var input = process.argv[2]
 //
 
 var volume = 0;
+var throughput = 0;
 var start = new Date;
 
 //
@@ -51,11 +52,13 @@ input.pipe(tr).pipe(process.stdout);
 var interval = setInterval(progress, 1000);
 
 function progress(){
-  var out = '\r\033[2K ' + [
-      bytes(volume).toUpperCase(),
-      strftime('%H:%M:%S', new Date((new Date) - start - 3600000))
-  ].join('  ') + ' ';
-  process.stderr.write(out);
+  var segs = [
+    bytes(volume).toUpperCase(),
+    strftime('%H:%M:%S', new Date((new Date) - start - 3600000)),
+    '[' + bytes(throughput).toUpperCase() + '/s]'
+  ];
+  process.stderr.write('\r\033[2K ' + segs.join('  ') + ' ');
+  throughput = 0;
 }
 
 input.on('close', clearInterval.bind(null, interval));

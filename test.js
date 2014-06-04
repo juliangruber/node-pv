@@ -28,12 +28,10 @@ test('bin stdarg read', function(t){
 test('bin volume', function(t){
   var ps = spawn(__dirname + '/bin/pv.js');
   ps.on('error', t.error.bind(t));
-  ps.stderr.once('data', function(){
-    ps.stderr.once('data', function(chunk){
-      ps.stdin.end();
-      t.ok(/3B/.test(chunk.toString()));
-      t.end();
-    });
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.ok(/3B/.test(chunk.toString()));
+    t.end();
   });
   ps.stdin.write('hey');
 });
@@ -41,12 +39,21 @@ test('bin volume', function(t){
 test('bin time', function(t){
   var ps = spawn(__dirname + '/bin/pv.js');
   ps.on('error', t.error.bind(t));
-  ps.stderr.once('data', function(){
-    ps.stderr.once('data', function(chunk){
-      ps.stdin.end();
-      t.ok(/00:00:01/.test(chunk.toString()));
-      t.end();
-    });
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.ok(/00:00:00/.test(chunk.toString()));
+    t.end();
+  });
+  ps.stdin.write('hey');
+});
+
+test('bin throughput', function(t){
+  var ps = spawn(__dirname + '/bin/pv.js');
+  ps.on('error', t.error.bind(t));
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.ok(/\[3B\/s\]/.test(chunk.toString()));
+    t.end();
   });
   ps.stdin.write('hey');
 });
