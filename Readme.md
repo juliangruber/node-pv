@@ -30,7 +30,7 @@ $ pv [OPTIONS] <FILE> | dest
 ## Installation
 
 ```bash
-$ npm install -g pv
+$ npm install -g node-pv
 ```
 
 ## License

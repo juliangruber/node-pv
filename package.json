@@ -1,5 +1,5 @@
 {
-  "name": "pv",
+  "name": "node-pv",
   "dependencies": {
     "bytes": "^1.0.0",
     "minimist": "^0.1.0",
