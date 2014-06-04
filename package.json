@@ -1,11 +1,14 @@
 {
   "name": "pv",
-  "devDependencies": {
-    "tape": "^2.13.2"
-  },
   "dependencies": {
     "bytes": "^1.0.0",
     "minimist": "^0.1.0",
     "strftime": "^0.8.0"
+  },
+  "devDependencies": {
+    "tape": "^2.13.2"
+  },
+  "bin": {
+    "pv": "bin/pv.js"
   }
 }
