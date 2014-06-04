@@ -94,3 +94,14 @@ test('bin argv size', function(t){
   ps.stdin.write('hey');
 });
 
+test('bin eta', function(t){
+  var ps = spawn(__dirname + '/bin/pv.js', ['-s', '30']);
+  ps.on('error', t.error.bind(t));
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.ok(/ETA  00:00:09/.test(chunk.toString()));
+    t.end();
+  });
+  ps.stdin.write('hey');
+});
+

@@ -79,10 +79,12 @@ function progress(){
   var segs = [];
   if (argv.N) segs.push(argv.N + ':');
   segs.push(bytes(volume).toUpperCase());
-  segs.push(strftime('%H:%M:%S', new Date((new Date) - start - 3600000)));
+  segs.push(time(new Date - start));
   segs.push('[' + bytes(throughput).toUpperCase() + '/s]');
   if (size) {
     segs.push(Math.round(volume / size * 100) + '%');
+    segs.push('ETA');
+    segs.push(time((size - volume) / throughput * 1000));
   }
 
   process.stderr.write('\r' + segs.join('  '));
@@ -90,4 +92,12 @@ function progress(){
 }
 
 input.on('close', clearInterval.bind(null, interval));
+
+/**
+ * Print time `n` in format HH:MM:SS.
+ */
+
+function time(n){
+  return strftime('%H:%M:%S', new Date(n - 3600000));
+}
 
