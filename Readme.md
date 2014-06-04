@@ -3,6 +3,13 @@
 
   A node.js implementation of the [pv](http://www.ivarch.com/programs/pv.shtml) utility.
 
+## Example
+
+```bash
+$ cat /dev/random | pv >/dev/null
+18.88MB  00:00:02  [9.59MB/s]^C
+```
+
 ## Usage
 
   There's an excellent description on
