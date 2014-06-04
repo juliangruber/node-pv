@@ -1,0 +1,6 @@
+{
+  "name": "pv",
+  "devDependencies": {
+    "tape": "^2.13.2"
+  }
+}
