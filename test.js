@@ -27,3 +27,14 @@ test('bin stdarg read', function(t){
   });
 });
 
+test('bin volume', function(t){
+  var ps = spawn(__dirname + '/bin/pv.js');
+  ps.on('error', t.error.bind(t));
+  ps.stderr.on('data', function(chunk){
+    ps.stdin.end();
+    t.equal(chunk.toString(), ' 3B\r');
+    t.end();
+  });
+  ps.stdin.write('hey');
+});
+

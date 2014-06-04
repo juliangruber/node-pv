@@ -2,5 +2,8 @@
   "name": "pv",
   "devDependencies": {
     "tape": "^2.13.2"
+  },
+  "dependencies": {
+    "bytes": "^1.0.0"
   }
 }
