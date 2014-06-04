@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "bytes": "^1.0.0",
+    "minimist": "^0.1.0",
     "strftime": "^0.8.0"
   }
 }

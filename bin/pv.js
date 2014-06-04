@@ -4,13 +4,24 @@ var fs = require('fs');
 var Transform = require('stream').Transform;
 var bytes = require('bytes');
 var strftime = require('strftime');
+var minimist = require('minimist');
+
+//
+// Arguments
+//
+
+var argv = minimist(process.argv.slice(2), {
+  alias: {
+    'name': 'N'
+  }
+});
 
 //
 // Input
 //
 
-var input = process.argv[2]
-  ? fs.createReadStream(process.argv[2])
+var input = argv._[0]
+  ? fs.createReadStream(argv._[0])
   : process.stdin;
 
 //
@@ -52,11 +63,11 @@ input.pipe(tr).pipe(process.stdout);
 var interval = setInterval(progress, 1000);
 
 function progress(){
-  var segs = [
-    bytes(volume).toUpperCase(),
-    strftime('%H:%M:%S', new Date((new Date) - start - 3600000)),
-    '[' + bytes(throughput).toUpperCase() + '/s]'
-  ];
+  var segs = [];
+  if (argv.N) segs.push(argv.N + ':');
+  segs.push(bytes(volume).toUpperCase());
+  segs.push(strftime('%H:%M:%S', new Date((new Date) - start - 3600000)));
+  segs.push('[' + bytes(throughput).toUpperCase() + '/s]');
   process.stderr.write('\r\033[2K ' + segs.join('  ') + ' ');
   throughput = 0;
 }
