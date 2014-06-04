@@ -68,7 +68,8 @@ function progress(){
   segs.push(bytes(volume).toUpperCase());
   segs.push(strftime('%H:%M:%S', new Date((new Date) - start - 3600000)));
   segs.push('[' + bytes(throughput).toUpperCase() + '/s]');
-  process.stderr.write('\r\033[2K ' + segs.join('  ') + ' ');
+
+  process.stderr.write('\r' + segs.join('  '));
   throughput = 0;
 }
 
