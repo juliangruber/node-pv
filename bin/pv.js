@@ -12,7 +12,8 @@ var minimist = require('minimist');
 
 var argv = minimist(process.argv.slice(2), {
   alias: {
-    'name': 'N'
+    'name': 'N',
+    'size': 's'
   }
 });
 
@@ -23,6 +24,18 @@ var argv = minimist(process.argv.slice(2), {
 var input = argv._[0]
   ? fs.createReadStream(argv._[0])
   : process.stdin;
+
+//
+// Size
+//
+
+var size = 0;
+
+if (argv.size) {
+  size = argv.size;
+} else if (argv._[0]) {
+  size = fs.statSync(argv._[0]).size;
+}
 
 //
 // State
