@@ -31,20 +31,20 @@ var input = argv._[0]
 var volume = 0;
 var throughput = 0;
 var start = new Date;
+var firstLine = true;
 
 //
 // Transform
 //
 
 var tr = Transform();
-var first = true;
 tr._transform = function(buf, _, done){
   volume += buf.length;
   throughput += buf.length;
 
-  if (first) {
+  if (firstLine) {
     progress();
-    first = false;
+    firstLine = false;
   }
 
   done(null, buf);
