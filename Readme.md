@@ -1,7 +1,9 @@
 
 # node-pv
 
-  A node.js implementation of the [pv](http://www.ivarch.com/programs/pv.shtml) utility.
+  A node.js implementation of the
+  [Pipe Viewer](http://www.ivarch.com/programs/pv.shtml) utility, useful for
+  inspecting a pipe's traffic.
 
 ## Example
 
