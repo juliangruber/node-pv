@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var Transform = require('stream').Transform;
-var bytes = require('bytes');
-var strftime = require('strftime');
 var minimist = require('minimist');
+var PV = require('..');
 
 //
 // Arguments
@@ -38,66 +36,15 @@ if (argv.size) {
 }
 
 //
-// State
+// Go!
 //
 
-var volume = 0;
-var throughput = 0;
-var start = new Date;
-var firstLine = true;
+var pv = PV({
+  name: argv.name,
+  size: size
+});
 
-//
-// Transform
-//
+input.pipe(pv).pipe(process.stdout);
 
-var tr = Transform();
-tr._transform = function(buf, _, done){
-  volume += buf.length;
-  throughput += buf.length;
-
-  if (firstLine) {
-    progress();
-    firstLine = false;
-  }
-
-  done(null, buf);
-};
-
-//
-// Connect
-//
-
-input.pipe(tr).pipe(process.stdout);
-
-//
-// Progress
-//
-
-var interval = setInterval(progress, 1000);
-
-function progress(){
-  var segs = [];
-  if (argv.N) segs.push(argv.N + ':');
-  segs.push(bytes(volume).toUpperCase());
-  segs.push(time(new Date - start));
-  segs.push('[' + bytes(throughput).toUpperCase() + '/s]');
-  if (size) {
-    segs.push(Math.round(volume / size * 100) + '%');
-    segs.push('ETA');
-    segs.push(time((size - volume) / throughput * 1000));
-  }
-
-  process.stderr.write('\r' + segs.join('  '));
-  throughput = 0;
-}
-
-input.on('close', clearInterval.bind(null, interval));
-
-/**
- * Print time `n` in format HH:MM:SS.
- */
-
-function time(n){
-  return strftime('%H:%M:%S', new Date(n - 3600000));
-}
+pv.on('info', console.error);
 
