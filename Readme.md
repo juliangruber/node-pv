@@ -35,6 +35,20 @@ $ pv [OPTIONS] <FILE> | dest
 $ npm install -g node-pv
 ```
 
+## JS API
+
+```js
+var PV = require('node-pv');
+var pv = PV({
+  size: /* ... */,
+  name: /* ... */
+});
+
+pv.on('info', console.error);
+
+process.stdin.pipe(pv).pipe(process.stdout);
+```
+
 ## License
 
   MIT
