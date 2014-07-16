@@ -105,3 +105,14 @@ test('bin eta', function(t){
   ps.stdin.write('hey');
 });
 
+test('bin no newline', function(t){
+  var ps = spawn(__dirname + '/bin/pv.js');
+  ps.on('error', t.error.bind(t));
+  ps.stderr.once('data', function(chunk){
+    ps.stdin.end();
+    t.notOk(/\n/.test(chunk.toString()));
+    t.end();
+  });
+  ps.stdin.write('hey');
+});
+

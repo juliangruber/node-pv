@@ -44,7 +44,9 @@ var pv = PV({
   name: /* ... */
 });
 
-pv.on('info', console.error);
+pv.on('info', function(str){
+  process.stderr.write(str);
+});
 
 process.stdin.pipe(pv).pipe(process.stdout);
 ```
