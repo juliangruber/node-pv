@@ -50,8 +50,9 @@ PV.prototype.progress = function(){
 };
 
 PV.prototype._flush =
-PV.prototype.close = function(){
+PV.prototype.close = function(cb){
   clearInterval(this.interval);
+  if (cb) cb();
 };
 
 //
