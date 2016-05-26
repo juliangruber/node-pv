@@ -13,5 +13,8 @@
   },
   "bin": {
     "pv": "bin/pv.js"
+  },
+  "scripts": {
+    "test": "tape test.js"  
   }
 }
