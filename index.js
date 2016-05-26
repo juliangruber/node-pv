@@ -41,8 +41,10 @@ PV.prototype.progress = function(){
   segs.push('[' + bytes(this.throughput).toUpperCase() + '/s]');
   if (this.size) {
     segs.push(Math.round(this.volume / this.size * 100) + '%');
-    segs.push('ETA');
-    segs.push(time((this.size - this.volume) / this.throughput * 1000));
+    if (this.throughput) {
+      segs.push('ETA');
+      segs.push(time((this.size - this.volume) / this.throughput * 1000));
+    }
   }
 
   this.throughput = 0;
