@@ -46,7 +46,7 @@ PV.prototype.progress = function(){
   }
 
   this.throughput = 0;
-  this.emit('info', '\r' + segs.join('  '));
+  this.emit('info', '\033[1K\r' + segs.join('  '));
 };
 
 PV.prototype._flush =
