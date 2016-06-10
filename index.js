@@ -1,6 +1,5 @@
 var Transform = require('stream').Transform;
 var bytes = require('bytes');
-var strftime = require('strftime');
 var inherits = require('util').inherits;
 
 module.exports = PV;
@@ -61,7 +60,30 @@ PV.prototype.close = function(cb){
 // Print time `n` in format HH:MM:SS.
 //
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+
 function time(n){
-  return strftime('%H:%M:%S', new Date(n - 3600000));
+  var out = '';
+
+  var hours = Math.floor(n / HOUR);
+  out += pad(hours) + ':';
+  n -= hours * HOUR;
+
+  var minutes = Math.floor(n / MINUTE);
+  out += pad(minutes) + ':';
+  n -= minutes * MINUTE;
+
+  var seconds = Math.floor(n / SECOND);
+  out += pad(seconds);
+
+  return out;
 }
 
+function pad(n){
+  n = String(n);
+  return n.length == 1
+    ? '0' + n
+    : n;
+}
