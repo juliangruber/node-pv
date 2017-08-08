@@ -2,6 +2,8 @@ var test = require('tape');
 var spawn = require('child_process').spawn;
 var tmpdir = require('os').tmpdir;
 var fs = require('fs');
+var Readable = require('stream').Readable;
+var PV = require('./');
 
 test('bin stdin pass through', function(t){
   var ps = spawn(__dirname + '/bin/pv.js');
@@ -116,3 +118,14 @@ test('bin no newline', function(t){
   ps.stdin.write('hey');
 });
 
+test('stream object mode', function(t){
+  var arr = [1, 2, 3];
+  var objects = new Readable({ objectMode: true, read() { this.push(arr.shift() || null) } })
+  var pv = new PV({ objectMode: true });
+  pv.on('error', t.error.bind(t));
+  pv.once('data', function(chunk){
+    t.notOk(/\n/.test(chunk.toString()));
+    t.end();
+  });
+  objects.pipe(pv);
+});

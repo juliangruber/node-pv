@@ -7,9 +7,10 @@ inherits(PV, Transform);
 
 function PV(opts){
   if (!(this instanceof PV)) return new PV(opts);
-  Transform.call(this);
 
   opts = opts || {};
+  Transform.call(this, opts);
+
   this.name = opts.name;
   this.size = opts.size;
   this.volume = 0;
@@ -21,8 +22,13 @@ function PV(opts){
 }
 
 PV.prototype._transform = function(buf, _, done){
-  this.volume += buf.length;
-  this.throughput += buf.length;
+  if (this._writableState.objectMode) {
+    this.volume += 1;
+    this.throughput += 1;
+  } else {
+    this.volume += buf.length;
+    this.throughput += buf.length;
+  }
 
   if (this.firstLine) {
     this.progress();

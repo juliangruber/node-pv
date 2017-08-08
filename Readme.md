@@ -41,7 +41,8 @@ $ npm install -g node-pv
 var PV = require('node-pv');
 var pv = PV({
   size: /* ... */,
-  name: /* ... */
+  name: /* ... */,
+  objectMode: /* ... */
 });
 
 pv.on('info', function(str){
